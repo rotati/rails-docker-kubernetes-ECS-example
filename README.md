@@ -35,7 +35,7 @@ We will append the short commit SHA to the remote Docker Image name. See content
 
 ### Setup a new Dockarized Rails Project
 
-NOTE: Accociated tutorial repo is [here](https://github.com/Apress/deploying-rails-w-docker)
+NOTE: Accociated tutorial repo is [here](https://github.com/Apress/deploying-rails-w-docker/tree/master/webapp)
 
 What follows are brief notes on how I dockarised this Rails application and pushed it to Docker Hub.
 
