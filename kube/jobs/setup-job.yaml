@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: setup
+spec:
+  template:
+    metadata:
+      name: setup
+    spec:
+      containers:
+      - name: setup
+        image: rotati/webapp:86d1ece
+        command: ["/bin/bash", "./setup.sh"]
+        # command: ["/bin/bash","-c"]
+        # args: ["/home/app/webapp/bin/rake db:create && /home/app/webapp/bin/rake db:migrate"]
+        env:
+        - name: PASSENGER_APP_ENV
+          value: development
+      restartPolicy: Never

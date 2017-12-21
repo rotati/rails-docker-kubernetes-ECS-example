@@ -8,4 +8,4 @@ done
 
 echo "PostgreSQL started"
 
-bin/rails db:migrate
+bin/rails db:migrate RAILS_ENV=production
