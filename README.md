@@ -1,29 +1,5 @@
 # README
 
-### Background
-
-NOTE: Accociated tutorial repo is [here](https://github.com/Apress/deploying-rails-w-docker)
-
-I created the application myself so I decided to install Rails on my local computer and create the application there. This does not have to be done again of course!
-
-`rails new --skip-bundle --api --database postgresql`
-
-Mote we passed `--skip-bundle` which means that the applications gem dependencies have not yet been installed and therefore there is no `Gemfile.lock`. The reason for doing this is so that we can run `bundle install` inside a Docker image like so.
-
-`docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ruby:2.4.1 bundle install`
-
-We then create and add basic configuration in `webapp.conf` and `rails-env.conf`.
-
-Then I added a `Dockerfile` from the `phusion/passenger-ruby` image.
-
-Then I added a `setup.sh` and `docker-compose` to the project. Please view for your information.
-
-I added a customer logger in `config\application.rb` which sends logs to STDOUT so that we can use `docker-compose logs -f` (see below for starting the app).
-
-I added a `.dockerignore` file and configure it.
-
-I added a `push.sh` file for building and pushing the Docker image to Docker Hub.
-
 ### Starting the app
 
 Prerequisites are that you have Git client installed and have cloned this repo. You also need Docker for Mac installed.
@@ -52,3 +28,26 @@ Run `docker exec -it webapp bash` which will connect you a permanent terminal se
 We will append the short commit SHA to the remote Docker Image name.
 
 `./push.sh`
+
+### Setup a new Dockarized Rails Project
+
+NOTE: Accociated tutorial repo is [here](https://github.com/Apress/deploying-rails-w-docker)
+
+I created the application myself so I decided to install Rails on my local computer and create the application there. 
+
+`rails new --skip-bundle --api --database postgresql`
+
+Mote we passed `--skip-bundle` which means that the applications gem dependencies have not yet been installed and therefore there is no `Gemfile.lock`. The reason for doing this is so that we can run `bundle install` inside a Docker image like so.
+
+`docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ruby:2.4.1 bundle install`
+
+This will create our Gemfile.lock file. The remaining files are added and configured manually as follows:
+
+* Add `webapp.conf` 
+* Add `rails-env.conf`
+* Add `Dockerfile`
+* Add `setup.sh`
+* Add `docker-compose.yml`
+* Add a customer logger in `config\application.rb` which sends logs to STDOUT so that we can use `docker-compose logs -f` (see below for starting the app).
+* Add `.dockerignore`
+* Add `push.sh` file for building and pushing the Docker image to Docker Hub.
