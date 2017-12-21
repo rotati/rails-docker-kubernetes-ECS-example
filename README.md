@@ -22,6 +22,8 @@ I added a customer logger in `config\application.rb` which sends logs to STDOUT 
 
 I added a `.dockerignore` file and configure it.
 
+I added a `push.sh` file for building and pushing the Docker image to Docker Hub.
+
 ### Starting the app
 
 Prerequisites are that you have Git client installed and have cloned this repo. You also need Docker for Mac installed.
@@ -49,6 +51,4 @@ Run `docker exec -it webapp bash` which will connect you a permanent terminal se
 
 We will append the short commit SHA to the remote Docker Image name.
 
-`LC=$(git rev-parse --short HEAD)`
-`docker build -t rotati/webapp:${LC} .`
-`docker push rotati/webapp:${LC}`
+`./push.sh`
