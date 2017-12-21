@@ -1,25 +1,17 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Background
 
-Things you may want to cover:
+I created the application myself so I decided to install Rails on my local computer and create the application there. This does not have to be done again of course!
 
-* Ruby version
+`rails new --skip-bundle --api --database postgresql`
 
-* System dependencies
+Mote we passed `--skip-bundle` which means that the applications gem dependencies have not yet been installed and therefore there is no `Gemfile.lock`. The reason for doing this is so that we can run `bundle install` inside a Docker image like so.
 
-* Configuration
+`docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ruby:2.4.1 bundle install`
 
-* Database creation
+We then create and add basic configuration in `webapp.conf` and `rails-env.conf`.
 
-* Database initialization
+Then I added a `Dockerfile` from the `phusion/passenger-ruby` image.
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# rails-docker-kubernetes-ECS-example
+Then I added a `setup.sh` and `docker-compose` to the project. Please view for your information.
