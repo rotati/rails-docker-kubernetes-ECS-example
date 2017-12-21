@@ -44,3 +44,11 @@ For example run `docker-compose run --rm webapp bin/rails g scaffold articles ti
 ### Connect a terminal session to the container
 
 Run `docker exec -it webapp bash` which will connect you a permanent terminal session to the container. Then it's possible to run `rails`, `rake` (etc) commands without the prefix (since you are 'inside' the container now).
+
+### Update the Docker Image
+
+We will append the short commit SHA to the remote Docker Image name.
+
+`LC=$(git rev-parse --short HEAD)`
+`docker build -t rotati/webapp:${LC} .`
+`docker push rotati/webapp:${LC}`
