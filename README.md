@@ -23,6 +23,12 @@ For example run `docker-compose run --rm webapp bin/rails g scaffold articles ti
 
 Run `docker exec -it webapp bash` which will connect you a permanent terminal session to the container. Then it's possible to run `rails`, `rake` (etc) commands without the prefix (since you are 'inside' the container now).
 
+### Test the API using cURL
+
+Run the following to add a new article to the database via the REST API:
+
+`curl -H "Content-Type: application/json" -X POST -d '{"title":"my brand new article","body":"This was made during a demo!"}' http://localhost/articles`
+
 ### Update the Docker Image
 
 We will append the short commit SHA to the remote Docker Image name. See contents of push.sh file for details.
@@ -49,11 +55,11 @@ Mote we passed `--skip-bundle` which means that the applications gem dependencie
 
 This will create our Gemfile.lock file. The remaining files are added and configured manually as follows:
 
+* Add `Dockerfile`
+* Add `docker-compose.yml`
 * Add `webapp.conf` 
 * Add `rails-env.conf`
-* Add `Dockerfile`
 * Add `setup.sh`
-* Add `docker-compose.yml`
 * Add a customer logger in `config\application.rb` which sends logs to STDOUT so that we can use `docker-compose logs -f` (see below for starting the app).
 * Add `.dockerignore`
 * Add `push.sh` file for building and pushing the Docker image to Docker Hub.
@@ -77,8 +83,9 @@ The following is a high level step by step guideline to setting up Kubernetes fo
 * Wait for the job to complete by checking the logs in the dashboard
 * Run `kubectl create -f kube/deployments/webapp-deployment.yaml`
 * Run `kubectl get pods` which will list all the running pods (in this project it will show one db and three webapp pods)
-* Run `minikube service webapp` (this will open up the application with load balancing already configured and working accross the three application pods )
 * Run `kubectl describe service webapp` to view details about the service created
+* Run `minikube service webapp` (this will open up the application with load balancing already configured and working accross the three application pods )
+
 
 ### AWS CLI Tips
 
