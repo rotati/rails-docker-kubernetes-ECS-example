@@ -27,11 +27,11 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: rotati/webapp:86d1ece
+      - image: rotati/webapp:68b8c08
         name: webapp
         env:
         - name: PASSENGER_APP_ENV
-          value: development
+          value: production
         ports:
         - containerPort: 80
           name: webapp

@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: setup
-        image: rotati/webapp:86d1ece
+        image: rotati/webapp:68b8c08
         command: ["/bin/bash", "./setup.production.sh"]
         # command: ["/bin/bash","-c"]
         # args: ["/home/app/webapp/bin/rake db:create && /home/app/webapp/bin/rake db:migrate"]
