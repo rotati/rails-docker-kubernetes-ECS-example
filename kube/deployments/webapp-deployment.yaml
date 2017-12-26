@@ -27,7 +27,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: rotati/webapp:68b8c08
+      - image: rotati/webapp:b0749d2
         name: webapp
         env:
         - name: PASSENGER_APP_ENV

@@ -16,6 +16,7 @@ class ArticlesController < ApplicationController
   # POST /articles
   def create
     @article = Article.new(article_params)
+    @article.slug = @article.title.parameterize
 
     if @article.save
       render json: @article, status: :created, location: @article
