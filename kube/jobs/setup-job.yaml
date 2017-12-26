@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: setup
-        image: rotati/webapp:b0749d2
+        image: rotati/webapp:5dbe624
         command: ["/bin/bash", "./setup.production.sh"]
         env:
         - name: PASSENGER_APP_ENV

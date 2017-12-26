@@ -38,9 +38,30 @@ We will append the short commit SHA to the remote Docker Image name. See content
 
 ### Deploying the application to AWS Production environment 
 
-Prepare the rails app Production secret key `docker-compose run --rm webapp bin/rake secret RAILS_ENV=production`
-Install kops `brew install kops`
-Work in progress...
+## Initial setup - install KOPS and create cluster
+
+* Install kops `brew install kops`
+* In your AWS account create a KOPS IAM user with Administrator access. The name of the user can be anything. Make a note of the keys.
+* In your AWS account create a subdomain hosted zone which will be used by KOPS. For example, create a new Route 53 Hosted Zone for 'k8s.stemware.io'. Then in the Hosted Zone for the parent, add a new Record Set for 'k8s.stemware.io' of type 'Nameserver' and past in the Nameserver values from the sub-domain Hosted Zone just created.
+* In your AWS account create a new S3 Bucket to store the state of the k8s cluster. Give it a name 'kops-state-<some-unique-id>' e.g. 'kops-state-7665'
+* Run the kops create cluster command like so: `kops create cluster --name=k8s.stemware.io --state=s3://kops-state-rt7665 --zones=ap-southeast-1a --node-count=2 --node-size=t2.micro --master-size=t2.micro --dns-zone=k8s.stemware.io`
+* To actually apply the new cluster in AWS you need to run the following update command `kops update cluster k8s.stemware.io --state=s3://kops-state-rt7665  --yes`
+* To edit the cluster run `kops edit cluster --name=k8s.stemware.io --state=s3://kops-state-rt7665 `
+* Validate the cluster as follows `kops validate cluster`
+* NOTE: To delete the cluster run the following `kops delete cluster --name=k8s.stemware.io --state=s3://kops-state-rt7665 `
+
+## Deploy an application to the cluster
+
+In this repo example, we can deploy the application to our running cluster of nodes in AWS by simply checking the current context of our `kubectl` command is set to our AWS cluster and then creating our services, jobs and deployments withing our cluster usign the `kubectl create` command.
+
+For this app we would run the following:
+
+* Make changes to the application as necessary (see development steps above)
+* Commit these changes to gitup
+* Run `deploy/push.sh` to build new image and push that image to Docker Hub
+* If there are migrations then run `kubectl delete job/setup` and `kubectl create -f kube/jobs/setup-job.yml`
+* Check the logs using  `kubectl logs <POD ID>` (use `kubectl get pods` to see the pod ids)
+* Run `kubectl apply -f kube/deployments/webapp-deployment.yaml` to APPLY the changes to the cluster!
 
 ### Setup a new Dockarized Rails Project
 
