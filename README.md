@@ -29,16 +29,9 @@ Run the following to add a new article to the database via the REST API:
 
 `curl -H "Content-Type: application/json" -X POST -d '{"title":"my brand new article","body":"This was made during a demo!"}' http://localhost/articles`
 
-### Update the Docker Image
+## Deploying the Production ready application to a Kubernetes Cluster on AWS 
 
-We will append the short commit SHA to the remote Docker Image name. See contents of push.sh file for details.
-
-
-`./push.sh`
-
-### Deploying the application to AWS Production environment 
-
-## Initial setup - install KOPS and create cluster
+### Initial setup - install KOPS and create a new cluster
 
 * Install kops `brew install kops`
 * In your AWS account create a KOPS IAM user with Administrator access. The name of the user can be anything. Make a note of the keys.
@@ -52,16 +45,15 @@ We will append the short commit SHA to the remote Docker Image name. See content
 
 ## Deploy an application to the cluster
 
-In this repo example, we can deploy the application to our running cluster of nodes in AWS by simply checking the current context of our `kubectl` command is set to our AWS cluster and then creating our services, jobs and deployments withing our cluster usign the `kubectl create` command.
+In this repo example, we can deploy the application to our running cluster of nodes in AWS by simply checking the current context of our `kubectl` command is set to our AWS cluster and then creating our services, jobs and deployments withing our cluster usign the `kubectl create` command. NOTE: this has all been scriped in a bash file (see below.
 
 For this app we would run the following:
 
 * Make changes to the application as necessary (see development steps above)
 * Commit these changes to gitup
-* Run `deploy/push.sh` to build new image and push that image to Docker Hub
-* If there are migrations then run `kubectl delete job/setup` and `kubectl create -f kube/jobs/setup-job.yml`
+* Run `deploy/push.sh` to build new image and push that image to Docker Hub and deploy it to our Kubernetes Cluster.
+* If there are migrations then run `deploy/migrate.sh`
 * Check the logs using  `kubectl logs <POD ID>` (use `kubectl get pods` to see the pod ids)
-* Run `kubectl apply -f kube/deployments/webapp-deployment.yaml` to APPLY the changes to the cluster!
 
 ### Setup a new Dockarized Rails Project
 
@@ -90,7 +82,7 @@ This will create our Gemfile.lock file. The remaining files are added and config
 
 See all the above files in this repo for example content in each. Once all the above files are completed just run `./push.sh` to build and push the Docker image to Docker Hub (log into the `docker` cli tool first).
 
-### Setup Kubernetes in a new project
+### Setup Kubernetes scripts and Minikube in a new project
 
 The following is a high level step by step guideline to setting up Kubernetes for a new project as well as testing the deployment using minkkube
 
@@ -102,14 +94,13 @@ The following is a high level step by step guideline to setting up Kubernetes fo
 * Install VirtualBox
 * Start minikube by running `minikube start`
 * Run `minikube dashboard`
-* Run `kubectl create -f kube/deployments/postgres-deployment.yaml`
+* Run `kubectl create -f kube/minikube/deployments/postgres-deployment.yaml`
 * Run `kubectl create -f kube/jobs/setup-job.yaml`
 * Wait for the job to complete by checking the logs in the dashboard
 * Run `kubectl create -f kube/deployments/webapp-deployment.yaml`
 * Run `kubectl get pods` which will list all the running pods (in this project it will show one db and three webapp pods)
 * Run `kubectl describe service webapp` to view details about the service created
 * Run `minikube service webapp` (this will open up the application with load balancing already configured and working accross the three application pods )
-
 
 ### AWS CLI Tips
 
@@ -120,3 +111,7 @@ To query the API using the AWS CLI use the --query switch. For example, to retur
 Use filters to fetch details about a specific subset of data. For example, fetch the Subnets for a specifiv VPC as follows:
 
 `aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-471eff20" --query="Subnets[*].SubnetId"`
+
+`aws ec2 create-volume --region ap-southeast --availability-zone ap-southeast-1 --size 10 --volume-type gp2`
+
+`aws ec2 describe-volumes --volume-ids vol-0a8e8fa239f1bb752 --region ap-southeast-1`
