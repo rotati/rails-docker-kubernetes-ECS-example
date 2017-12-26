@@ -36,7 +36,7 @@ spec:
         - name: POSTGRES_USER
           value: webapp
         - name: POSTGRES_DB
-          value: webapp_production
+          value: webapp_development
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         ports:

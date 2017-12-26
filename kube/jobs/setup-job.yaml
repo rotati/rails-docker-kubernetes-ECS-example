@@ -10,10 +10,10 @@ spec:
       containers:
       - name: setup
         image: rotati/webapp:86d1ece
-        # command: ["/bin/bash", "./setup.sh"]
-        command: ["/bin/bash","-c"]
-        args: ["/home/app/webapp/bin/rake db:create && /home/app/webapp/bin/rake db:migrate"]
+        command: ["/bin/bash", "./setup.production.sh"]
+        # command: ["/bin/bash","-c"]
+        # args: ["/home/app/webapp/bin/rake db:create && /home/app/webapp/bin/rake db:migrate"]
         env:
         - name: PASSENGER_APP_ENV
-          value: development
+          value: production
       restartPolicy: Never

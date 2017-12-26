@@ -33,11 +33,14 @@ Run the following to add a new article to the database via the REST API:
 
 We will append the short commit SHA to the remote Docker Image name. See contents of push.sh file for details.
 
+
 `./push.sh`
 
 ### Deploying the application to AWS Production environment 
 
-### TODO: Stay Tuned!
+Prepare the rails app Production secret key `docker-compose run --rm webapp bin/rake secret RAILS_ENV=production`
+Install kops `brew install kops`
+Work in progress...
 
 ### Setup a new Dockarized Rails Project
 
