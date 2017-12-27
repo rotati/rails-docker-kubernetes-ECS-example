@@ -25,6 +25,10 @@ ADD rails-env.conf /etc/nginx/main.d/rails-env.conf
 # Install gems: it's better to build an independent layer for the gems 
 # so they are cached during builds unless Gemfile changes 
 WORKDIR /tmp 
+
+# skip installing gem documentation
+RUN echo 'gem: --no-rdoc --no-ri' >> "$HOME/.gemrc"
+
 ADD Gemfile /tmp/ 
 ADD Gemfile.lock /tmp/ 
 RUN bundle install 

@@ -12,7 +12,7 @@ spec:
     tier: frontend
   type: LoadBalancer
 ---
-apiVersion: extensions/v1beta1
+apiVersion: extensions/v1beta1 #TODO update version
 kind: Deployment
 metadata:
   name: webapp
