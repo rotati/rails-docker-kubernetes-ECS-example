@@ -55,6 +55,13 @@ For this app we would run the following:
 * If there are migrations then run `deploy/migrate.sh`
 * Check the logs using  `kubectl logs <POD ID>` (use `kubectl get pods` to see the pod ids)
 
+Other commands that are useful during deployment
+
+* Check deployment status `kubectl rollout status`
+* List previous deployments `kubectl rollout history`
+* Undo / Rollback a deployment `kubectl rollout undo`
+* Undo / Rollback to a specific version of deployment `kubectl rollout undo --to-revision=n`
+
 ### Setup a new Dockarized Rails Project
 
 NOTE: Accociated tutorial repo is [here](https://github.com/Apress/deploying-rails-w-docker/tree/master/webapp)
