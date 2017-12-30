@@ -55,12 +55,15 @@ For this app we would run the following:
 * If there are migrations then run `deploy/migrate.sh`
 * Check the logs using  `kubectl logs <POD ID>` (use `kubectl get pods` to see the pod ids)
 
-Other commands that are useful during deployment
+Other commands that are useful during setup and deployment
 
 * Check deployment status `kubectl rollout status`
 * List previous deployments `kubectl rollout history`
 * Undo / Rollback a deployment `kubectl rollout undo`
 * Undo / Rollback to a specific version of deployment `kubectl rollout undo --to-revision=n`
+* Create a configmap `ks create configmap <CONFIGMAP-NAME> --from-file=<FILE-CONTAINING-CONFIG>` for example to create a configmap for Nginx configuration run `ks create configmap niginx-config --from-file=configmap/reverseproxy.conf`
+* Execute a command within a container `kubectl exec <POD-NAME> -it -- <COMMAND-TO-EXECUTE>` for example to connect to a MySQL instance in a POD called 'database' `kubectl exec <POD-NAME> -it -- mysql -u root -p` or another example, to start a bash shell in a pod called 'helloworld-deployment-5dc4bb99fd-gf8nd' `kubectl exec helloworld-deployment-5dc4bb99fd-gf8nd -it -- bash`
+* Execute a command in a temp container (usually 'busybox') then run the following `kubectl run -i --tty busybox --image=busybox --restart=Never -- bash`
 
 ### Setup a new Dockarized Rails Project
 
